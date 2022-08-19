@@ -1,3 +1,3 @@
 # Develfood API
 
-<h1>CRUD for Coupons and Orders Control</h1>
+<h2>CRUD for Coupons and Orders Control</h2>
