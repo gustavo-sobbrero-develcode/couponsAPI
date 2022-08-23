@@ -3,9 +3,11 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
 import { DevelfoodController } from "./develfood.controller";
-import { DevelfoodService } from "./services/develfood.service";
+import { DevelfoodRepository } from "./repositories/develfood.repository";
 import mongoose from "mongoose";
 import { MONGO_URL } from "./constants/develfoodApi.constants";
+import swaggerUi from "swagger-ui-express";
+import swaggerDocs from "./swagger.json";
 
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
@@ -18,6 +20,7 @@ class App {
 
   constructor() {
     this.app = express();
+    this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
     this.setConfig();
     this.setMongoConfig();
     this.setControllers();
@@ -35,7 +38,9 @@ class App {
   }
 
   private setControllers() {
-    const develfoodController = new DevelfoodController(new DevelfoodService());
+    const develfoodController = new DevelfoodController(
+      new DevelfoodRepository()
+    );
 
     this.app.use("/develfood", develfoodController.router);
   }

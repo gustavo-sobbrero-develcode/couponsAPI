@@ -1,11 +1,11 @@
 import { Request, Response, Router } from "express";
 
-import { DevelfoodService } from "./services/develfood.service";
+import { DevelfoodRepository } from "./repositories/develfood.repository";
 
 export class DevelfoodController {
   public router = Router();
 
-  constructor(private develfoodService: DevelfoodService) {
+  constructor(private develfoodRepository: DevelfoodRepository) {
     this.setRoutes();
   }
 
@@ -15,12 +15,18 @@ export class DevelfoodController {
     this.router.route("/:id").delete(this.deleteCoupon).put(this.updateCoupon);
     this.router.route("/order").post(this.addOrder);
     this.router.route("/order/all").get(this.findAllOrders);
-    this.router.route("/order/:id").delete(this.deleteOrder).put(this.updateOrder);
+    this.router
+      .route("/order/:userId/:restaurantId")
+      .get(this.findUserOrdersByRestaurantId);
+    this.router
+      .route("/order/:id")
+      .delete(this.deleteOrder)
+      .put(this.updateOrder);
   }
 
   private findAllCoupons = async (_: Request, res: Response) => {
     try {
-      const coupon = await this.develfoodService.findAll();
+      const coupon = await this.develfoodRepository.findAll();
       res.send(coupon);
     } catch (e) {
       res.status(500).send(e);
@@ -29,7 +35,7 @@ export class DevelfoodController {
 
   private addCoupon = async (req: Request, res: Response) => {
     try {
-      const addCouponResult = await this.develfoodService.add(req.body);
+      const addCouponResult = await this.develfoodRepository.add(req.body);
       res.send(addCouponResult);
     } catch (e) {
       res.status(500).send(e);
@@ -38,7 +44,7 @@ export class DevelfoodController {
 
   private deleteCoupon = async (req: Request, res: Response) => {
     try {
-      const deleteCouponResult = await this.develfoodService.delete(
+      const deleteCouponResult = await this.develfoodRepository.delete(
         req.params.id
       );
       res.send(deleteCouponResult);
@@ -49,7 +55,7 @@ export class DevelfoodController {
 
   private updateCoupon = async (req: Request, res: Response) => {
     try {
-      const updateCouponResult = await this.develfoodService.update(
+      const updateCouponResult = await this.develfoodRepository.update(
         req.params.id,
         req.body
       );
@@ -61,8 +67,24 @@ export class DevelfoodController {
 
   private findAllOrders = async (_: Request, res: Response) => {
     try {
-      const order = await this.develfoodService.findAllOrders();
+      const order = await this.develfoodRepository.findAllOrders();
       res.send(order);
+    } catch (e) {
+      res.status(500).send(e);
+    }
+  };
+
+  private findUserOrdersByRestaurantId = async (
+    req: Request,
+    res: Response
+  ) => {
+    try {
+      const userOrdersResult =
+        await this.develfoodRepository.findUserOrdersByRestaurantId(
+          req.params.userId,
+          req.params.restaurantId
+        );
+      res.send(userOrdersResult);
     } catch (e) {
       res.status(500).send(e);
     }
@@ -70,7 +92,7 @@ export class DevelfoodController {
 
   private addOrder = async (req: Request, res: Response) => {
     try {
-      const addOrderResult = await this.develfoodService.addOrder(req.body);
+      const addOrderResult = await this.develfoodRepository.addOrder(req.body);
       res.send(addOrderResult);
     } catch (e) {
       res.status(500).send(e);
@@ -79,7 +101,7 @@ export class DevelfoodController {
 
   private deleteOrder = async (req: Request, res: Response) => {
     try {
-      const deleteOrderResult = await this.develfoodService.deleteOrder(
+      const deleteOrderResult = await this.develfoodRepository.deleteOrder(
         req.params.id
       );
       res.send(deleteOrderResult);
@@ -90,7 +112,7 @@ export class DevelfoodController {
 
   private updateOrder = async (req: Request, res: Response) => {
     try {
-      const updateOrderResult = await this.develfoodService.updateOrder(
+      const updateOrderResult = await this.develfoodRepository.updateOrder(
         req.params.id,
         req.body
       );

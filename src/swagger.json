@@ -1,0 +1,354 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Develfood Coupons Documentation",
+    "description": "This is an API for Manage Coupons",
+    "version": "1.0.0",
+    "contact": {
+      "email": "sobbrero@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:9001",
+      "description": "API for Manage Coupons"
+    }
+  ],
+  "paths": {
+    "/develfood": {
+      "post": {
+        "tags": ["Coupon"],
+        "summary": "Create a coupon",
+        "description": "Create a new coupon",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "percentage": {
+                    "type": "number"
+                  },
+                  "restaurantId": {
+                    "type": "string"
+                  },
+                  "restaurantName": {
+                    "type": "string"
+                  },
+                  "userId": {
+                    "type": "string"
+                  },
+                  "createdAt": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "percentage": 50,
+                  "restaurantId": "2",
+                  "restaurantName": "Krusty",
+                  "userId": "12",
+                  "createdAt": "1996-12-17T03:24:00"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/develfood/all": {
+      "get": {
+        "tags": ["Coupon"],
+        "summary": "List all coupons",
+        "description": "List all coupons",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "example": {
+                      "_id": "62ffd0428be34d67ab8fafdb",
+                      "percentage": 50,
+                      "restaurantId": "2",
+                      "restaurantName": "Krusty",
+                      "userId": "12",
+                      "createdAt": "1996-12-17T03:24:00",
+                      "__v": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/develfood/{_id}": {
+      "put": {
+        "tags": ["Coupon"],
+        "summary": "Edit coupon",
+        "description": "Edit coupon",
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "path",
+            "description": "coupon _id",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "percentage": {
+                    "type": "number"
+                  },
+                  "restaurantId": {
+                    "type": "string"
+                  },
+                  "restaurantName": {
+                    "type": "string"
+                  },
+                  "userId": {
+                    "type": "string"
+                  },
+                  "createdAt": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "percentage": 50,
+                  "restaurantId": "2",
+                  "restaurantName": "Krusty",
+                  "userId": "12",
+                  "createdAt": "1996-12-17T03:24:00"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Coupon"],
+        "summary": "Delete coupon",
+        "description": "Delete coupon",
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "path",
+            "description": "coupon _id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/develfood/order": {
+      "post": {
+        "tags": ["Order"],
+        "summary": "Create a order",
+        "description": "Create a new order",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "couponId": {
+                    "type": "string"
+                  },
+                  "restaurantId": {
+                    "type": "string"
+                  },
+                  "userId": {
+                    "type": "string"
+                  },
+                  "createdAt": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "couponId": "4",
+                  "restaurantId": "2",
+                  "userId": "12",
+                  "createdAt": "1996-12-17T03:24:00"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/develfood/order/all": {
+      "get": {
+        "tags": ["Order"],
+        "summary": "List all orders",
+        "description": "List all orders",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "example": {
+                      "_id": "6304ecf312c5e1812270ff18",
+                      "restaurantId": "32",
+                      "couponId": "8",
+                      "userId": "122",
+                      "createdAt": "1996-12-17T03:24:00",
+                      "__v": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/develfood/order/{userId}/{restaurantId}": {
+      "get": {
+        "tags": ["Order"],
+        "summary": "List user orders by restaurnt",
+        "description": "List user orders by restaurant",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "order userId",
+            "required": true
+          },
+          {
+            "name": "restaurantId",
+            "in": "path",
+            "description": "order restaurantId",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "example": {
+                      "_id": "6304ecf312c5e1812270ff18",
+                      "restaurantId": "32",
+                      "userId": "122",
+                      "createdAt": "1996-12-17T03:24:00",
+                      "couponId": "8",
+                      "__v": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/develfood/order/{_id}": {
+      "put": {
+        "tags": ["Order"],
+        "summary": "Edit order",
+        "description": "Edit order",
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "path",
+            "description": "order _id",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "restaurantId": {
+                    "type": "string"
+                  },
+                  "couponId": {
+                    "type": "string"
+                  },
+                  "userId": {
+                    "type": "string"
+                  },
+                  "createdAt": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "couponId": 3,
+                  "restaurantId": "33",
+                  "userId": "100",
+                  "createdAt": "2000-12-17T03:24:00"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Order"],
+        "summary": "Delete order",
+        "description": "Delete order",
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "path",
+            "description": "order _id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}

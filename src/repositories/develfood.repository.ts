@@ -3,7 +3,7 @@ import { Coupon } from "../models/coupon.model";
 import { IOrder } from "../interfaces/order.interface";
 import { Order } from "../models/order.model";
 
-export class DevelfoodService {
+export class DevelfoodRepository {
   public findAll(): Promise<ICoupon[]> {
     return Coupon.find({}).exec();
   }
@@ -37,6 +37,27 @@ export class DevelfoodService {
 
   public findAllOrders(): Promise<IOrder[]> {
     return Order.find({}).exec();
+  }
+
+  public async findUserOrdersByRestaurantId(
+    userId: string,
+    restaurantId: string
+  ): Promise<IOrder[] | []> {
+    const ordersById: IOrder[] | [] = await Order.find(
+      {
+        userId: userId,
+        restaurantId: restaurantId,
+      },
+      (error: Error, data: IOrder[]) => {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log(data);
+        }
+      }
+    ).exec();
+
+    return ordersById;
   }
 
   public addOrder(order: IOrder): Promise<IOrder> {
