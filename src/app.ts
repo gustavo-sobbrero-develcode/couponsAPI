@@ -1,13 +1,16 @@
+import "reflect-metadata";
 import { Application } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
-import { DevelfoodController } from "./develfood.controller";
-import { DevelfoodRepository } from "./repositories/develfood.repository";
+import { CouponsController } from "./controllers/coupons.controller";
+import { CouponsRepository } from "./repositories/coupons.repository";
 import mongoose from "mongoose";
 import { MONGO_URL } from "./constants/develfoodApi.constants";
 import swaggerUi from "swagger-ui-express";
 import swaggerDocs from "./swagger.json";
+import { OrdersController } from "./controllers/orders.controller";
+import { OrdersRepository } from "./repositories/orders.repository";
 
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
@@ -38,11 +41,11 @@ class App {
   }
 
   private setControllers() {
-    const develfoodController = new DevelfoodController(
-      new DevelfoodRepository()
-    );
+    const couponsController = new CouponsController(new CouponsRepository());
+    const ordersController = new OrdersController(new OrdersRepository());
 
-    this.app.use("/develfood", develfoodController.router);
+    this.app.use("/develfood", couponsController.router);
+    this.app.use("/develfood", ordersController.router);
   }
 }
 

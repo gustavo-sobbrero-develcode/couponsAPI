@@ -1,6 +1,7 @@
 import { Document } from "mongoose";
 
-export interface ICoupon extends Document {
+export interface ICoupon {
+  code: string;
   percentage: number;
   restaurantId: string;
   restaurantName: string;

@@ -94,6 +94,45 @@
         }
       }
     },
+    "/develfood/{userId}": {
+      "get": {
+        "tags": ["Coupon"],
+        "summary": "List user coupons",
+        "description": "List user coupons",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "coupon userId",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "example": {
+                      "_id": "6304ecf312c5e1812270ff18",
+                      "percentage": 12,
+                      "restaurantId": "32",
+                      "restaurantName": "Don Julio",
+                      "userId": "71",
+                      "createdAt": "2000-07-30T03:24:00",
+                      "__v": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/develfood/{_id}": {
       "put": {
         "tags": ["Coupon"],
